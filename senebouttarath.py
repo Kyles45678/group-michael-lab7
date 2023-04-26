@@ -17,9 +17,14 @@ def filter_out_possibilities(possibles, knowns, occurs):
                 if i in possibles[l]:
                     possibles[l].remove(i)
 
+    to_pop_from_occurs = []
     for let in occurs:
         if occurs[let] <= 0 and let in possibles:
             possibles.pop(let)
+            to_pop_from_occurs.append(let)
+
+    for let in to_pop_from_occurs:
+        occurs.pop(let)
 
 
 def add_nums_to_set(s, end_range, ignores):
