@@ -4,6 +4,25 @@ alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g',
             'w', 'x', 'y', 'z']
 
 
+def place_single_possibles(knowns, possibles, occurs):
+    keys_to_remove = []
+
+    for letter in possibles:
+        if len(possibles[letter]) == 1:
+            index_to_place = possibles[letter].pop()
+            keys_to_remove.append(letter)
+            if letter in occurs:
+                occurs[letter] -= 1;
+            knowns[index_to_place] = letter
+
+    for key in keys_to_remove:
+        if key in occurs and occurs[key] <= 0:
+            occurs.pop(key)
+        if key in possibles:
+            possibles.pop(key)
+
+
+
 def filter_out_occurences_with_known(occurs, knowns):
     for c in knowns:
         if c in occurs:
@@ -75,8 +94,20 @@ def main():
     filter_out_possibilities(possibilities, known_characters, occurs)
 
     print("-----------------------------------------------------------------")
+    print(known_characters)
     print("occurences:", occurs)
     print(possibilities)
+
+    place_single_possibles(known_characters, possibilities, occurs)
+
+    print("-----------------------------------------------------------------")
+    print(known_characters)
+    print("occurences:", occurs)
+    print(possibilities)
+
+
+
+    print("".join(known_characters))
 
 
 main()
