@@ -4,6 +4,13 @@ alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g',
             'w', 'x', 'y', 'z']
 
 
+def get_unique_possibilities(possibles, word_length):
+    most_shared_set = set(range(word_length))
+    for c in possibles:
+        most_shared_set = most_shared_set.intersection(possibles[c])
+    
+    # return most_shared_set
+
 def place_single_possibles(knowns, possibles, occurs):
     keys_to_remove = []
 
@@ -20,7 +27,6 @@ def place_single_possibles(knowns, possibles, occurs):
             occurs.pop(key)
         if key in possibles:
             possibles.pop(key)
-
 
 
 def filter_out_occurences_with_known(occurs, knowns):
@@ -86,28 +92,42 @@ def main():
             if let not in occurs or occurs[let] < cur_occurs[let]:
                 occurs[let] = cur_occurs[let]
 
-    print(known_characters)
-    print("occurences:", occurs)
-    print(possibilities)
+    #print(known_characters)
+    #print("occurences:", occurs)
+    #print(possibilities)
 
     filter_out_occurences_with_known(occurs, known_characters)
     filter_out_possibilities(possibilities, known_characters, occurs)
 
-    print("-----------------------------------------------------------------")
-    print(known_characters)
-    print("occurences:", occurs)
-    print(possibilities)
+    #print("-----------------------------------------------------------------")
+    #print(known_characters)
+    #print("occurences:", occurs)
+    #print(possibilities)
 
     place_single_possibles(known_characters, possibilities, occurs)
 
+    cur_word = "".join(known_characters)
+    if len(cur_word) == word_length:
+        print(cur_word)
+        return
+
+
     print("-----------------------------------------------------------------")
     print(known_characters)
     print("occurences:", occurs)
     print(possibilities)
 
+    #print("------------")
+    #print(possibilities['b'].difference(possibilities['d']))
+    #print(possibilities['d'].difference(possibilities['b']))
+    #print("------------")
+    #print(possibilities['b'].difference(possibilities['e']))
+    #print(possibilities['e'].difference(possibilities['b']))
+    #print("------------")
+    #print(possibilities['d'].difference(possibilities['e']))
+    #print(possibilities['e'].difference(possibilities['d']))
 
-
-    print("".join(known_characters))
-
+    differenced_possibilities = get_unique_possibilities(possibilities, word_length)
+    print(differenced_possibilities)
 
 main()
